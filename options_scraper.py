@@ -7,11 +7,11 @@ import time
 import datetime
 from datetime import timedelta
 import json
-import requests
 import logging
 #import pandas as pd
 import sqlite3
 from pytz import timezone
+from security import safe_requests
 
 
 # Input TD Ameritrade API Key
@@ -75,7 +75,7 @@ def options_scraper(ticker_list, scraping_interval):
                     try:
                         print("fetching options chain data")
                         #try to collect data
-                        r = requests.get(("https://api.tdameritrade.com/v1/marketdata/chains?apikey={TD_AMERITRADE_API_KEY}&symbol={ticker_symbol}&contractType=ALL&strikeCount=10&includeQuotes=TRUE&strategy=SINGLE&range=ALL").format(ticker_symbol=ticker, TD_AMERITRADE_API_KEY = TD_AMERITRADE_API_KEY))
+                        r = safe_requests.get(("https://api.tdameritrade.com/v1/marketdata/chains?apikey={TD_AMERITRADE_API_KEY}&symbol={ticker_symbol}&contractType=ALL&strikeCount=10&includeQuotes=TRUE&strategy=SINGLE&range=ALL").format(ticker_symbol=ticker, TD_AMERITRADE_API_KEY = TD_AMERITRADE_API_KEY))
                         r_dict = r.json()
                         options_chain_entry = str(r_dict)
                         print("fetched options chain data")
